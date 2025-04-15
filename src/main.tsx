@@ -4,6 +4,7 @@ import './index.css'
 import TodoListPage from './TodoListPage.tsx'
 import { store } from './app/store'
 import { Provider } from 'react-redux'
+import React from 'react'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>

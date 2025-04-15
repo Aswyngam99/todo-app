@@ -41,4 +41,37 @@ describe('TodoList Component', () => {
     // Check if delete function was called
     expect(useTodos().handleDelete).toHaveBeenCalledWith(1);
   });
+
+   // Simulating API failure or empty state
+    test('shows loading state while fetching todos', () => {
+      (useTodos as jest.Mock).mockReturnValue({
+        todos: [],
+        status: 'loading',
+        handleUpdate: jest.fn(),
+        handleDelete: jest.fn(),
+        showConfirmation: false,
+        confirmDelete: jest.fn(),
+        cancelDelete: jest.fn()
+      });
+
+      render(<TodoList />);
+
+      expect(screen.getByText('Loading...')).toBeInTheDocument();
+    });
+
+    test('handles error state when fetching todos fails', () => {
+      (useTodos as jest.Mock).mockReturnValue({
+        todos: [],
+        status: 'error',
+        handleUpdate: jest.fn(),
+        handleDelete: jest.fn(),
+        showConfirmation: false,
+        confirmDelete: jest.fn(),
+        cancelDelete: jest.fn()
+      });
+
+      render(<TodoList />);
+
+      expect(screen.getByText('Error loading todos')).toBeInTheDocument();
+    });
 });

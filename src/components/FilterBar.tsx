@@ -1,3 +1,5 @@
+import React from "react";
+
 type FilterProps = {
     filter: string;
     setFilter: (value: string) => void;

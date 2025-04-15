@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import type { Todo } from '../features/todos/todosSlice';
 
 interface EditTodoModalProps {
-  todo: Todo | null;
+  todo: Todo;
   onSave: (updatedTodo: Todo) => void;
   onClose: () => void;
 }
@@ -12,47 +12,45 @@ const EditTodoModal: React.FC<EditTodoModalProps> = ({ todo, onSave, onClose }) 
   const [completed, setCompleted] = useState(false);
 
   useEffect(() => {
-    if (todo) {
-      setTitle(todo.title);
-      setCompleted(todo.completed);
-    }
+    setTitle(todo.title);
+    setCompleted(todo.completed);
   }, [todo]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (todo) {
-      onSave({ ...todo, title, completed });
-    }
-  };
 
-  if (!todo) return null;
+    // Build updated todo — 100% safe because `todo` is no longer nullable.
+    const updatedTodo: Todo = {
+      ...todo,
+      title,
+      completed,
+    };
+
+    onSave(updatedTodo);
+  };
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
       <div className="bg-white p-6 rounded-lg shadow-lg w-96">
         <h2 className="text-lg font-semibold mb-4 text-gray-800">Edit Todo</h2>
-        <form onSubmit={handleSubmit}>
-          <div className="mb-4">
-            <label className="block text-sm text-gray-700 mb-1">Title</label>
+        <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+          <input
+            type="text"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            className="border p-2 rounded"
+            placeholder="Todo title"
+          />
+
+          <label className="flex items-center gap-2">
             <input
-              className="w-full p-2 border rounded"
-              value={title}
-              onChange={e => setTitle(e.target.value)}
-              required
-            />
-          </div>
-          <div className="mb-4 flex items-center">
-            <input
-              id="completed"
               type="checkbox"
               checked={completed}
-              onChange={e => setCompleted(e.target.checked)}
-              className="mr-2"
+              onChange={(e) => setCompleted(e.target.checked)}
             />
-            <label htmlFor="completed" className="text-sm text-gray-700 dark:text-gray-200">
-              Completed
-            </label>
-          </div>
+            Completed
+          </label>
+
           <div className="flex justify-end gap-2">
             <button
               type="button"
@@ -74,4 +72,4 @@ const EditTodoModal: React.FC<EditTodoModalProps> = ({ todo, onSave, onClose }) 
   );
 };
 
-export default React.memo(EditTodoModal);
+export default EditTodoModal;

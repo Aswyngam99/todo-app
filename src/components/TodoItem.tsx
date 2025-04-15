@@ -14,20 +14,28 @@ const TodoItem: React.FC<TodoItemProps> = ({ id, title, completed, onClick }) =>
   return (
     <div className="flex items-center justify-between p-4 border-b" role="listitem">
       <div>
-        <span className={completed ? 'line-through text-gray-500' : ''} id={`todo-title-${id}`}>
-          {title}
-        </span>
+       <div
+      role="button"
+      tabIndex={0}
+      aria-pressed="false"
+      onClick={onClick}
+      onKeyDown={(e) => { if (e.key === 'Enter') onClick(); }}
+      className={`flex justify-between items-center p-4 border-b cursor-pointer ${completed ? 'line-through text-gray-400' : ''}`}
+    >
+      <span>{title}</span>
+      <span>{completed ? '✅' : '❌'}</span>
+    </div>
       </div>
       <div className="flex gap-2">
         {/* Edit Todo Button (Opens modal) */}
-        <button
+        {/* <button
           onClick={onClick}  // Opens edit modal
           className="text-blue-600 hover:text-blue-800"
           aria-label={`Edit Todo: ${title}`}  // ARIA label for editing
           tabIndex={0}  // Ensure it's focusable and part of the tab order
         >
           Edit
-        </button>
+        </button> */}
         
         {/* Delete Todo Button */}
         <button
