@@ -1,4 +1,5 @@
 import React, { useState, Suspense } from 'react'
+import { motion, AnimatePresence } from 'framer-motion';
 import { useTodos } from '../hooks/useTodos'
 import TodoItem from './TodoItem'
 import FilterBar from './FilterBar'
@@ -49,12 +50,21 @@ export default function TodoList() {
   }
 
   return (
-    <div className="p-4 max-w-2xl mx-auto">
+    <div className="p-6 max-w-3xl mx-auto bg-white shadow-2xl rounded-3xl">
+      <h1 className="text-3xl font-bold text-center mb-6 text-gray-800">My Todo List</h1>
       <FilterBar search={search} setSearch={setSearch} filter={filter} setFilter={setFilter} />
 
-      {status === 'loading' && <p>Loading...</p>}
+      {status === 'loading' && <p className="text-center mt-6 text-gray-500">Loading...</p>}
 
+      <AnimatePresence>
       {paginatedTodos.map(todo => (
+        //   <motion.div
+        //   key={todo.id}
+        //   initial={{ opacity: 0, x: -1 }}
+        //   animate={{ opacity: 1, x: 0 }}
+        //   exit={{ opacity: 0, x: 1 }}
+        //   transition={{ duration: 0.2 }}
+        // >
         <TodoItem
           key={todo.id}
           id={todo.id}
@@ -62,10 +72,21 @@ export default function TodoList() {
           completed={todo.completed}
           onClick={() => handleOpenModal(todo.id)}
         />
+        // </motion.div>
       ))}
+      </AnimatePresence>
 
+      <AnimatePresence>
       {selectedTodo && (
-        <Suspense fallback={<div className="text-center">Loading editor...</div>}>
+         <motion.div
+         key="edit-modal"
+         initial={{ opacity: 0, scale: 0.95 }}
+         animate={{ opacity: 1, scale: 1 }}
+         exit={{ opacity: 0, scale: 0.95 }}
+         transition={{ duration: 0.2 }}
+         className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50"
+       >
+        <Suspense fallback={<div className="text-center text-gray-500">Loading editor...</div>}>
           <EditTodoModal
             todo={selectedTodo}
             onClose={handleCloseModal}
@@ -75,24 +96,24 @@ export default function TodoList() {
             }}
           />
         </Suspense>
+        </motion.div>
       )}
+      </AnimatePresence>
 
-       {/* Pagination controls */}
-       <div className="flex justify-between items-center mt-4">
+      {/* Pagination */}
+      <div className="flex justify-center items-center gap-2 mt-6">
         <button
-          onClick={() => handlePageChange(currentPage - 1)}
+          onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
           disabled={currentPage === 1}
-          className="px-4 py-2 bg-gray-200 rounded-md"
+          className="px-3 py-1 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300 disabled:opacity-50 cursor-pointer"
         >
-          Previous
+          Prev
         </button>
-        <span>
-          Page {currentPage} of {totalPages}
-        </span>
+        <span className="text-gray-600 font-semibold">{currentPage} / {totalPages}</span>
         <button
-          onClick={() => handlePageChange(currentPage + 1)}
+          onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
           disabled={currentPage === totalPages}
-          className="px-4 py-2 bg-gray-200 rounded-md"
+          className="px-3 py-1 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300 disabled:opacity-50 cursor-pointer"
         >
           Next
         </button>

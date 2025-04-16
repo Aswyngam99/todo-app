@@ -1,4 +1,3 @@
-// src/hooks/useTodos.ts
 import { useSelector, useDispatch } from 'react-redux';
 import { useEffect, useState } from 'react';
 import { fetchTodos, updateTodoOptimistic, updateTodoConfirmed, revertTodoUpdate } from '../features/todos/todosSlice';
