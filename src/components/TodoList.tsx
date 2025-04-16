@@ -84,7 +84,7 @@ export default function TodoList() {
          animate={{ opacity: 1, scale: 1 }}
          exit={{ opacity: 0, scale: 0.95 }}
          transition={{ duration: 0.2 }}
-         className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50"
+         className="fixed inset-0 flex items-center justify-center z-50"
        >
         <Suspense fallback={<div className="text-center text-gray-500">Loading editor...</div>}>
           <EditTodoModal

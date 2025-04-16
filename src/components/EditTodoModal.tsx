@@ -29,7 +29,7 @@ const EditTodoModal: React.FC<EditTodoModalProps> = ({ todo, onSave, onClose }) 
   };
 
   return (
-    <div className="fixed inset-0 bg-black/50 flex justify-center items-center z-50">
+    <div className="fixed inset-0 bg-black/20 flex justify-center items-center z-50">
       <div className="bg-white p-6 rounded-2xl shadow-2xl w-full max-w-md">
         <h2 className="text-2xl font-semibold mb-6 text-gray-800 text-center">Edit Todo</h2>
         
@@ -39,7 +39,7 @@ const EditTodoModal: React.FC<EditTodoModalProps> = ({ todo, onSave, onClose }) 
             type="text"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
-            className="border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
+            className="border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:border-gray-500 transition"
             placeholder="Todo title"
           />
   
@@ -48,7 +48,7 @@ const EditTodoModal: React.FC<EditTodoModalProps> = ({ todo, onSave, onClose }) 
               type="checkbox"
               checked={completed}
               onChange={(e) => setCompleted(e.target.checked)}
-              className="w-4 h-4 accent-blue-600 cursor-pointer" 
+              className="w-4 h-4 accent-gray-600 cursor-pointer" 
             />
             Mark as Completed
           </label>
@@ -63,7 +63,7 @@ const EditTodoModal: React.FC<EditTodoModalProps> = ({ todo, onSave, onClose }) 
             </button>
             <button
               type="submit"
-              className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition cursor-pointer"
+              className="px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition cursor-pointer"
             >
               Save
             </button>
